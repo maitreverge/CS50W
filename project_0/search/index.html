@@ -8,6 +8,9 @@
 		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<link rel="stylesheet" href="styles.css">
 
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
 </head>
 
 <body>
@@ -15,10 +18,18 @@
 	<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png" alt="logo google" id="google_logo" >
 	
 	<div id="form">
-		<form action="https://www.google.com/search">
-			<input type="text" name="q">
-			
-			<input type="submit" value="Google Search" class="btn btn-success">
+		<form action="https://www.google.com/search" class="form-inline">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="search-icon">
+						<i class="fas fa-search"></i>
+					</span>
+				</div>
+				<input type="text" name="q" class="form-control rounded-left" placeholder="Search">
+				<div class="input-group-append">
+					<input type="submit" value="Google Search" class="btn btn-success rounded-right">
+				</div>
+			</div>
 		</form>
 	</div>
 </body>
