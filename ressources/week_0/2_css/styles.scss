@@ -1,0 +1,49 @@
+// We have the baility to create variables
+$my_color : red;
+
+div {
+	color: $my_color;
+}
+
+// but for it to happen, we need to compile
+// saas my_styles.scss:my_styles.css
+
+// We can also make it compile in real time 
+// saas --watch my_styles.scss:my_styles.css
+
+// We can also use nested styles 
+
+#foo {
+	background-color: blue;
+
+	text-align: left;
+	p {
+		text-align: center;
+	}
+
+	a {
+		text-align: left;
+	}
+
+	.bar{
+		color: red;
+	}
+}
+
+
+// Also, we can call inheritance, which is to say defining like a block on unattributed css...
+%message{
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 18px;
+	font-weight: bold;
+	border: 1px solid black;
+	padding: 20px;
+	margin: 20px;
+}
+
+.succes {
+	// ... to apply it later 
+	@extend %message;
+	background-color: green;
+
+}
