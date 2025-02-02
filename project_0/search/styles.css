@@ -1,0 +1,22 @@
+body {
+	background-color: rgb(39, 38, 38);
+	margin: 0;
+}
+
+#form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#google_logo {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: none; /* Ensure the image size remains the same */
+    width: 400px; /* Set a fixed width */
+    height: auto;
+}
