@@ -92,11 +92,89 @@ For connecting the whole project to the app, we need to create an additional `ur
 # First we need to import path function
 from django.urls import path
 
+# Then import the views.py to leveraling the OOP views.index
 from . import views
 
 urlpatterns = [
     path("", views.index, name="index")
 	# views.index actually reffers to the index functions in views.py of the same app
-	# name="index" is usefull for making a 
+	# name="index" is usefull for giving a name to a particular URL pattern for referencing it in others parts of the application later on
 ]
 ```
+
+
+This is what Django project `urls.py` looks like
+```python
+from django.contrib import admin
+from django.urls import path
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+]
+```
+
+In order to connect our app to our project, we need to connect the recently created app to the project's `urls.py` file.
+This file kinda acts like a router, able to redirect all the routes towards the app route `urls.py` sub-files.
+
+```python
+from django.contrib import admin
+# Need to import `include`
+from django.urls import include, path
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("hello/", include("hello.urls")),
+]
+```
+
+## LEVERAGING <str::name>
+
+Thanks to the syntax `<str::name>` in the url, we can then dynamically generate names inputs
+
+```python
+path("<str:name>", views.greet, name="greet"),
+```
+
+```python
+def greet(request, name):
+    return HttpResponse(f"Hello {name.capitalize()} !")
+```
+
+## MAKING HTML PAGES
+
+Consider this
+
+```python
+def greet(request):
+    return HttpResponse("Hello, World !")
+```
+
+At the end of the day, this would be very tedious to generate a whole HTML page in a single string in Python.
+
+Plus, we can ave multiple people working on one side on the Python logic, and the other working let's say on CSS, rearanging the front-end.
+
+Django allows us so to separate multiple logics in multiple files.
+
+We're going to use a `render` function which takes `request` and the path of the `.html` file we want to leverage
+
+```python
+def greet(request):
+    return render(request, "hello/index.html")
+```
+
+In an app, we're going to create an folder called `templates` in which we create another folder called `hello` (the name of the app).
+
+IMPORTANT :
+Despite the newly created folder called `templates` is already inside the `hello` folder, we'll still create a subfolder for avoiding conflicts in namespaces.
+
+
+
+
+
+
+
+
+
+
+
+

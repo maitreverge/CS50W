@@ -3,4 +3,17 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("Hello, World !")
+    return render(request, "hello/index.html")
+
+def alice(request):
+    return HttpResponse("Hello alice !")
+
+def bob(request):
+    return HttpResponse("Hello bob !")
+
+def chalie(request):
+    return HttpResponse("Hello chalie !")
+
+def greet(request, name):
+    return HttpResponse(f"Hello {name.capitalize()} !")
+    
