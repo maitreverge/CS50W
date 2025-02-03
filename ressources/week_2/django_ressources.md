@@ -7,17 +7,20 @@ django-admin startproject <PROJECT_NAME>
 ```text
 manage.py
 ```
+
 is a file we're going to interact with with the CLI.
 Generally, we don't need to toch that file
 
 ```text
 settings.py
 ```
+
 is where all the configuration of our web-app is based
 
 ```text
 urls.py
 ```
+
 Think of it about a table of content for our web-app
 
 PROJECT vs APP in Django
@@ -31,7 +34,6 @@ python manage.py startapp <APP_NAME>
 ```
 
 After it, we have some code on `settings.py`
-
 
 ```python
 INSTALLED_APPS = [
@@ -69,9 +71,32 @@ from django.shortcuts import render
 
 ```
 
-For creating a view, we type :
-``` python
+For creating a view, we need a function :
+
+```python
 def index(request):
 # The request keyword represent the HTTP request that the client made
 ```
 
+```python
+from django.shortcuts import render
+from django.http import HttpResponse # we need to import the ability from django to generate HTTP responses
+
+def index(request):
+    return HttpResponse("Hello, World !")
+```
+
+For connecting the whole project to the app, we need to create an additional `urls.py` within the app, so the app can manage its own urls
+
+```python
+# First we need to import path function
+from django.urls import path
+
+from . import views
+
+urlpatterns = [
+    path("", views.index, name="index")
+	# views.index actually reffers to the index functions in views.py of the same app
+	# name="index" is usefull for making a 
+]
+```
