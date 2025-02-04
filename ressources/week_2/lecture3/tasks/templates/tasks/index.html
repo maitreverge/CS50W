@@ -1,0 +1,16 @@
+{% extends "tasks/layout.html" %}
+
+{% block body %}
+<h2> The goal here is to dynamically loop other tasks </h2>
+<!-- <ul>
+	<li>Item1</li>
+	<li>Item2</li>
+	<li>Item3</li>
+</ul> -->
+<ul>
+	{% for task in tasks %}
+	<li>{{ task }}</li>
+	{% endfor %}
+</ul>
+<a href="{% url 'tasks:add' %}"> Add a new task</a>
+{% endblock %}

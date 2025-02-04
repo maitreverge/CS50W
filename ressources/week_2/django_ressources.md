@@ -266,7 +266,71 @@ my_project/
 
 After placing css just like the architecture above, we can first `{% load static %}` and then tell Django to load static files dynamically
 
+## EXTENDS and BLOCKS
 
+```html
+{% extends "tasks/layout.html" %}
+
+{% block body %}
+
+<body>
+	<form action="">
+		<input type="text", name="task">
+		<input type="submit">
+	</form>
+</body>
+<a href="{% url 'index' %}"> Back to list tasks</a>
+
+{% endblock %}
+```
+
+```html
+<!-- base HTML -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Tasks</title>
+</head>
+
+<body>
+	<!-- presence of blocks which can be extended -->
+	{% block body %}
+	{% endblock %}
+</body>
+
+</html>
+```
+
+
+## DYNAMICS URLS and route collisions
+
+```html
+<a href="{% url 'index' %}"> Back to list tasks</a>
+```
+
+When working with urls, we can dynamically insert links, but problem can be that we have differents pages named `index` in `urls.py` files.
+
+To avoid collisions, we can specify in each app :
+
+```python
+from django.urls import path
+from . import views
+
+##############################
+# We can specify that this name is called tasks
+app_name = "tasks"
+##############################
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('add', views.add, name='add'),
+]
+```
+
+... and when it's time to specify urls we can insert `tasks:index` to avoid collision
+```html
+<a href="{% url 'tasks:index' %}"> Back to list tasks</a>
+```
 
 
 

@@ -1,0 +1,13 @@
+{% extends "tasks/layout.html" %}
+
+{% block body %}
+
+<body>
+	<form action="">
+		<input type="text", name="task">
+		<input type="submit">
+	</form>
+</body>
+<a href="{% url 'tasks:index' %}"> Back to list tasks</a>
+
+{% endblock %}
