@@ -33,7 +33,7 @@ def add(request):
         # Imagine changing a form validation while client have the old html client-side checking
         if form.is_valid():
             task = form.cleaned_data["task"]
-            tasks.append(task)
+            request.session["tasks"] += [task]
             return HttpResponseRedirect(reverse("tasks:index"))
         else:
             return render(request, "tasks/add.html", {

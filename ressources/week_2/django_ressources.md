@@ -496,7 +496,7 @@ For creating such table, we need to run the command
 python3 manage.py migrate
 ```
 
-
+Migration includes everything that was in memory in a database for sure.
 
 
 
