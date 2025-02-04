@@ -168,6 +168,103 @@ IMPORTANT :
 Despite the newly created folder called `templates` is already inside the `hello` folder, we'll still create a subfolder for avoiding conflicts in namespaces.
 
 
+## DJANGO TEMPLATES :
+
+For leveraging templates, we can plug a `context` (a python `dict`) as last argument, where we can plug variables to be plugged in in the page.
+
+```python
+def greet(request, name):
+    return render(request, "hello/greet.html", {
+        "name" : name.capitalize(),
+    })
+```
+
+For leveraging this template, we can use `{{ }}` within the HTML for pluggin variables.
+```html
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Hello hehe</title>
+	</head>
+	<body>
+		<h1>Hello, {{ name }}!</h1>
+	</body>
+</html>
+```
+
+We can also use DJango logic statements
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title> Is it New Year's ?</title>
+</head>
+
+<body>
+	{% if newyear %}
+	<h1> YES </h1>
+	{% else %}
+	<h1> YES </h1>
+	{% endif %}
+</body>
+
+</html>
+```
+
+
+## STATIC FILES
+
+Just like templates, Django have a lot of functions and libraries than can leverage static files.
+
+The key here is to access to them quite easily within the app folder.
+
+Here is what the folder organization looks like
+
+```text
+my_project/
+ |
+ |--- app/
+ |    |--- __init__.py
+ |    |--- admin.py
+ |    |--- apps.py
+ |    |--- models.py
+ |    |--- tests.py
+ |    |--- views.py
+ |    |
+ |    |--- migrations/
+ |    |    |--- __init__.py
+ |    |
+ |    |--- templates/
+ |    |    |--- app/
+ |    |    |    |--- index.html
+ |    |
+ |    |--- static/
+ |    |    |--- app/
+ |    |    |    |--- css/
+ |    |    |    |    |--- styles.css
+ |    |    |    |--- js/
+ |    |    |    |    |--- scripts.js
+ |    |    |    |--- images/
+ |    |    |    |    |--- logo.png
+ |
+ |--- manage.py
+```
+
+```html
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title> Is it New Year's ?</title>
+	<link rel="stylesheet" href="{% static 'newyear/styles.css' %}">
+</head>
+```
+
+After placing css just like the architecture above, we can first `{% load static %}` and then tell Django to load static files dynamically
 
 
 
