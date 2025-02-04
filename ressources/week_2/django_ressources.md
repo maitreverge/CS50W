@@ -332,6 +332,170 @@ urlpatterns = [
 <a href="{% url 'tasks:index' %}"> Back to list tasks</a>
 ```
 
+## CSFR
+
+## CSRF (Cross-Site Request Forgery)
+
+CSRF is an attack that tricks the user into performing actions they didn't intend to. Django provides built-in protection against this.
+
+When creating forms in Django, it's important to include a CSRF token to ensure the form is submitted from your site.
+
+Here's an example of a form with CSRF protection:
+
+```html
+<form action="/submit/" method="post">
+	{% csrf_token %}
+	<input type="text" name="task">
+	<input type="submit" value="Add Task">
+</form>
+```
+
+The `{% csrf_token %}` tag generates a unique token for the form, which Django checks when the form is submitted. This helps prevent malicious sites from submitting forms on behalf of your users.
+
+Always include `{% csrf_token %}` in your forms to maintain good security practices.
+
+When viewing the source code of such forms, we can see for example :
+```html
+
+<body>
+	<form action="/tasks/add" method="post">
+		<input type="hidden" name="csrfmiddlewaretoken" value="yjaVM5SOJNSdSw6g6RjhLBYRWQdEPZSPxJ0Ah063mHT14kyRNoojiABzOfqCQe">
+		<input type="text" , name="task">
+		<input type="submit">
+	</form>
+</body>
+```
+
+## FORMS IN DJANGO
+
+Because Forms in web-app is so commonly used, Django comes with `forms`
+
+```python
+from django import forms
+```
+
+First we start by creating a new form :
+
+```python
+class NewTaskForm(forms.Form):
+    task = forms.CharField(label="new_task")
+```
+
+... then we pass a new object as context
+```python
+def add(request):
+    return render(request, "tasks/add.html", {
+        "form" : NewTaskForm(),
+    })
+```
+
+... to finally plug it into 
+```html
+	<form action="{% url 'tasks:add' %}" method="post">
+		{% csrf_token %}
+		<!-- HERE -->
+		{{ form }}
+		<!-- HERE -->
+		<input type="submit">
+	</form>
+```
+
+## GET vs POST methods
+
+Within a webpage with a form, we can either `GET` the webpage and also `POST` let's say a form.
+
+Problem is, we need to differenciate the method that arrives from the client.
+
+```python
+def add(request):
+    if request.method == "POST":
+        # request.POST contains all the data the user submited
+		# And we put it 
+        form = NewTaskForm(request.POST)
+
+        # Checking if the form is valid is making both a server side check even
+        # if the client-side check seems to be valid.
+		#! NEVER TRUST THE CLIENT
+        # Imagine changing a form validation while client have the old html client-side checking
+        if form.is_valid():
+			# Extract the field named "task"
+            task = form.cleaned_data["task"]
+			# and appending it to the list
+            tasks.append(task)
+        else:
+            return render(request, "tasks/add.html", {
+				# If the form in invalid, we pass to the client the same form he tried to sumbit
+				# So he can actually see what mistakes he made
+                "form": form,
+            })
+
+    return render(request, "tasks/add.html", {
+        "form" : NewTaskForm(),
+    })
+```
+
+At this point, after submitting the form, we actually posted our stuff on the list.
+
+Problem is, it is not obvious to the user what we actually posted.
+
+We can then redirect the user to a page quite elegantely :
+
+```python
+return HttpResponseRedirect(reverse("tasks:index"))
+```
+
+`HttpResponseRedirect`: This is a class provided by Django that generates an HTTP response which redirects the user to a specified URL. When a user accesses a view that returns an `HttpResponseRedirect`, their browser is instructed to navigate to the new URL.
+
+`reverse`("tasks:index"): The `reverse` function is used to look up the URL for a given view by its name.
+
+## DJANGO SESSIONS
+
+Problem is right now, we have another problem : We face having some sort of same rendering accross different clients.
+
+We do not want our to-do list to be shared with others people's todolists.
+
+So instead of storing data in a global variable like
+
+```python
+tasks = []
+```
+
+We not enable the creation of empty table for the current connected user
+
+```python
+# Store the data inside user session instead of globally
+# tasks = []
+
+def index(request):
+    # render a list with render tasks
+    if "tasks" not in request.session:
+        # If the user does not have already a list of tasks, give it an empty list to him
+        request.session["tasks"] = []
+    return render(request, "tasks/index.html", {
+        # django template html : code 
+        # "tasks" : tasks
+        
+        # Now that we have a session, we need to render the "tasks" from the session
+        "tasks": request.session["tasks"]
+    })
+```
+
+Just doing this is not enough, because we moved the storage from a `global_variable` to a session, which do not exists yet if we just refresh the page.
+
+We might get something like this :
+
+```text
+OperationalError at /tasks/
+
+no such table: django_session
+```
+
+For creating such table, we need to run the command
+
+```bash
+python3 manage.py migrate
+```
+
 
 
 
