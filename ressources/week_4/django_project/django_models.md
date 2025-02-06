@@ -145,3 +145,29 @@ Within this minishell env, we can type straight python code
 from flights.models import Flight
 f = Flight(origin="New York", destination="London", duration="415")
 f.save()
+Flight.objects.all()
+```
+
+Querying the name actually outputs :
+```text
+Out[4]: <QuerySet [<Flight: Flight object (1)>]>
+```
+
+Which is not very usefull. Instead, we can define a `__str__` inside our model like
+
+```python
+    def __str__(self):
+        return f"{self.id}: {self.origin} to {self.destination}"
+```
+(which acts like a function which returns basics string representation of the class,and can now ask the shell back again)
+
+```python
+from flights.models import Flight
+flights = Flight.objects.all()
+flights
+```
+
+```text
+<QuerySet [<Flight: 1: New York to London>]>
+```
+
