@@ -256,3 +256,80 @@ http://localhost:8000/admin/
 (if port 8000 is our default port by Django server)
 
 
+## CREATING CUSTOM FLIGHT PAGE
+
+The goal here is to create an url like
+
+```bash
+http://localhost:8000/admin/flight/1
+```
+
+To have such result we need first another url
+
+```python
+    path("<int:flight_id>", views.flight, name="flight")
+```
+
+Then write the said function
+
+```python
+def flight(request, flight_id):
+    # pk stands for primary key
+    flight = Flight.objects.get(pk=flight_id)
+
+    return render(request, "flights/flight.html", {
+        "flight":flight
+    })
+```
+
+Then write the custom HTML
+
+```html
+{% extends "flights/layout.html" %}
+
+{% block body %}
+<h1>Flight {{ flight.id }}</h1>
+
+<ul>
+	<li>Origin: {{ flight.origin }}</li>
+	<li>Destination: {{ flight.destination }}</li>
+	<li>Duration: {{ flight.duration }}</li>
+</ul>
+{% endblock %}
+```
+
+## CREATING A PASSENGER CLASS
+
+```python
+class Passenger(models.Model):
+    first = models.CharField(max_length=64)
+    last = models.CharField(max_length=64)
+	# The blank attribute is here to tell Django : The passenger can exists without necessary having a flight
+    flights = models.ManyToManyField(Flight, blank=True, related_name="passengers")
+
+    def __str__(self):
+        return f"{self.first}, {self.last}"
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```python
+
+```
+
+```python
+
+```
