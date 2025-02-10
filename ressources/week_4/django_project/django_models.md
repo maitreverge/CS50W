@@ -228,3 +228,31 @@ Migrations for 'flights':
 ```bash
 python3 manage.py migrate
 ```
+
+
+## DJANGO SUPERUSER
+
+```bash
+python3 manage.py createsuperuser
+```
+
+After creating a superuser, we need to take those models and add them to the file `admin.py`
+
+```python
+from django.contrib import admin
+
+from .models import Flight, Airport
+
+# Those two lines tells Django that I want to use those two models with the admin app
+admin.site.register(Airport)
+admin.site.register(Flight)
+```
+
+Then we can register to the current admin page by typing the url
+
+```bash
+http://localhost:8000/admin/
+```
+(if port 8000 is our default port by Django server)
+
+
