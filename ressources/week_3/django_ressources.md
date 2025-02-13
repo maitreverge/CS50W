@@ -9,7 +9,7 @@ manage.py
 ```
 
 is a file we're going to interact with with the CLI.
-Generally, we don't need to toch that file
+Generally, we don't need to touch that file
 
 ```text
 settings.py
@@ -21,11 +21,13 @@ is where all the configuration of our web-app is based
 urls.py
 ```
 
-Think of it about a table of content for our web-app
+Think of it about a table of content for our web-app where we can store every URL we can visit
 
 PROJECT vs APP in Django
 
-An app is a sub-component of a project.
+A `project` is the main idea, the main website.
+
+An `app` is a sub-component of the website, a subservice.
 
 For starting the whole project, we need to create an app :
 
