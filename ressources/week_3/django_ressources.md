@@ -100,6 +100,8 @@ from . import views
 urlpatterns = [
     path("", views.index, name="index")
 	# views.index actually reffers to the index functions in views.py of the same app
+	
+	# ! IMPORTANT
 	# name="index" is usefull for giving a name to a particular URL pattern for referencing it in others parts of the application later on
 ]
 ```
