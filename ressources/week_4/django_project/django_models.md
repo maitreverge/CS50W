@@ -135,11 +135,15 @@ Now we can see a new file `db.sqlite3` has been created !
 
 ## MANAGIN SQL with PYTHON SHELL
 
+The python shell command which can be called with :
+
 ```bash
 python3 manage.py shell
 ```
 
-Within this minishell env, we can type straight python code 
+is usefull to interact with the web-app through the python interpreter.
+
+Within this shell envirnoment, we can type straight python code 
 
 ```python
 from flights.models import Flight
@@ -147,6 +151,10 @@ f = Flight(origin="New York", destination="London", duration="415")
 f.save()
 Flight.objects.all()
 ```
+> [!NOTE]
+> `f.save()` does actually saves with a SQL `insert` command throught Python interpreter
+>  `Flight.objects.all()` is the SQL equivalent to `SELECT * FROM flights`
+
 
 Querying the name actually outputs :
 ```text
@@ -160,7 +168,7 @@ Which is not very usefull. Instead, we can define a `__str__` inside our model l
     def __str__(self):
         return f"{self.id}: {self.origin} to {self.destination}"
 ```
-(which acts like a function which returns basics string representation of the class,and can now ask the shell back again)
+*(which acts like a function which returns basics string representation of the class,and can now ask the shell back again)*
 
 ```python
 from flights.models import Flight
@@ -170,6 +178,24 @@ flights
 
 ```text
 <QuerySet [<Flight: 1: New York to London>]>
+```
+
+We can push the logic further with typing within the shell
+
+```python
+flights = Flight.objects.all()
+flight = flights.first()
+
+# and then
+# Outputs the `id` of the first flights
+flight.id
+# Outputs the `origin` of the first flights
+flight.origin
+# Outputs the `destination` of the first flights
+flight.destination
+
+# Then delete the current selected flight
+flight.delete()
 ```
 
 Once we want to implement a new model let's say `Airport` :
