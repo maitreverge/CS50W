@@ -131,18 +131,23 @@ urlpatterns = [
 ]
 ```
 
-## LEVERAGING <str::name>
+
+
+## LEVERAGING PLACEHOLDERS URLS with <str::name>
 
 Thanks to the syntax `<str::name>` in the url, we can then dynamically generate names inputs
 
 ```python
-path("<str:name>", views.greet, name="greet"),
+path("<str:name>/", views.greet, name="greet"),
 ```
 
 ```python
 def greet(request, name):
     return HttpResponse(f"Hello {name.capitalize()} !")
 ```
+
+> [!IMPORTANT]
+> In `urls.py` kind of files, this is very important to end urls with a trailing slash `/`
 
 ## MAKING HTML PAGES
 
@@ -166,11 +171,14 @@ def greet(request):
     return render(request, "hello/index.html")
 ```
 
+`render` function allows us to take a HTML template and leverage it, instead of returning a single page string and leveraging a whole html file
+
 In an app, we're going to create an folder called `templates` in which we create another folder called `hello` (the name of the app).
 
 IMPORTANT :
 Despite the newly created folder called `templates` is already inside the `hello` folder, we'll still create a subfolder for avoiding conflicts in namespaces.
 
+This specific files/folders encapsulation will allow us to have like multiples `index.html` files.
 
 ## DJANGO TEMPLATES :
 
@@ -208,9 +216,9 @@ We can also use DJango logic statements
 
 <body>
 	{% if newyear %}
-	<h1> YES </h1>
+		<h1> YES </h1>
 	{% else %}
-	<h1> YES </h1>
+		<h1> YES </h1>
 	{% endif %}
 </body>
 
