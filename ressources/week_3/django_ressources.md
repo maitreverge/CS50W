@@ -534,9 +534,3 @@ python3 manage.py migrate
 ```
 
 Migration includes everything that was in memory in a database for sure.
-
-
-
-
-
-
