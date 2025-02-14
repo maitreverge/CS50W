@@ -278,7 +278,32 @@ my_project/
 
 After placing css just like the architecture above, we can first `{% load static %}` and then tell Django to load static files dynamically
 
-## EXTENDS and BLOCKS
+## FOR LOOPS INSIDE HTML
+
+Just like with conditionals statements, we can loop inside an HTML file
+
+```html
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title> Tasks</title>
+</head>
+
+<body>
+	<ul>
+		{% for task in tasks %}
+		<li> {{ task }}</li>
+		{% endfor %}
+	</ul>
+
+</body>
+
+</html>
+```
+
+## EXTENDS (Template Inheritence) and BLOCKS
 
 ```html
 {% extends "tasks/layout.html" %}
