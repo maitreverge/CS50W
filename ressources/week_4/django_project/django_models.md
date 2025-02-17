@@ -368,6 +368,27 @@ def flight(request, flight_id):
 ```
 
 
+### ADD A BOOKING SYSTEM :
+
+```python
+def book(request, flight_id):
+    if request.method == "POST":
+        # Get the flight object based on the primary key (flight_id)
+        flight = Flight.objects.get(pk=flight_id)
+        
+        # Get the passenger object based on the ID from the POST request
+        passenger = Passenger.objects.get(pk=int(request.POST["passenger"]))
+        
+        # Add the flight to the passenger's list of flights
+        passenger.flights.add(flight)
+        
+        # Redirect to the flight page after booking
+        return HttpResponseRedirect(reverse("flight", args=(flight.id)))
+```
+
+
+
+
 
 
 
