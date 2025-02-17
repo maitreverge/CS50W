@@ -386,6 +386,21 @@ def book(request, flight_id):
         return HttpResponseRedirect(reverse("flight", args=(flight.id)))
 ```
 
+## USER MANAGEMENT
+
+We just start to create a new app called `users`, in within we create 3 different routes :
+
+```python
+from django.urls import path
+
+from . import views
+urlpatterns = [
+    path("", views.index, name="index"),
+    path("login", views.login_view, name="login"),
+    path("logout", views.logout_view, name="logout"),
+]
+```
+
 
 
 
