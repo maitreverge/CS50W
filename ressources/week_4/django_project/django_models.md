@@ -256,13 +256,13 @@ python3 manage.py migrate
 ```
 
 
-## DJANGO SUPERUSER
+## DJANGO SUPERUSER (ADMIN APP)
 
 ```bash
 python3 manage.py createsuperuser
 ```
 
-After creating a superuser, we need to take those models and add them to the file `admin.py`
+After creating a superuser, we need to take those models and add them to the file `admin.py` inside of our app
 
 ```python
 from django.contrib import admin
@@ -273,6 +273,8 @@ from .models import Flight, Airport
 admin.site.register(Airport)
 admin.site.register(Flight)
 ```
+
+This will tell Django that throught the admin app, we would like to use and manipulate the data inside those two models.
 
 Then we can register to the current admin page by typing the url
 
@@ -337,9 +339,33 @@ class Passenger(models.Model):
         return f"{self.first}, {self.last}"
 ```
 
+Once those changes are made (we just add a new Model), it's time to apply those changes and make the migration.
 
+Once those changes applied, we need to register this new model to the the Django admin system :
 
+```python
+from django.contrib import admin
 
+from .models import Flight, Airport, Passenger
+
+# Those two lines tells Django that I want to use those two models with the admin app
+admin.site.register(Airport)
+admin.site.register(Flight)
+admin.site.register(Passenger)
+```
+
+Thanks to this ManytoMany relationship to this Passenger table, we can then upgrade our `flight` view
+
+```python
+def flight(request, flight_id):
+    # pk stands for primary key
+    flight = Flight.objects.get(pk=flight_id)
+
+    return render(request, "flights/flight.html", {
+        "flight": flight,
+        "passenger" : flight.passengers.all() # by adding this
+    })
+```
 
 
 
